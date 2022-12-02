@@ -8,41 +8,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-    //validation for no empty data allowed
-function validateForm() {
-  var x = document.forms["myForm"]["city_id"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-  var x = document.forms["myForm"]["first_name"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-  var x = document.forms["myForm"]["last_name"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-  var x = document.forms["myForm"]["email"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-  var x = document.forms["myForm"]["password"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-  var x = document.forms["myForm"]["address"].value;
-  if (x == "" || x == null) {
-    alert("Name must be filled out");
-    return false;
-  }
-}
-</script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,38 +18,133 @@ function validateForm() {
 <body>
     <div align="center" border="1"> 
     <h2> User Page </h2> </div>
+    <?php
+    //validation performed
+    $city_idErr  = "";
+    $city_id = "";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+       if (empty($_POST["city_id"])) {
+           $city_idErr = "input  is required";
+         } else {
+           $city_id= input_data($_POST["city_id"]);
+           // check that the  is valid or not
+            if (!preg_match("/^[a-zA-Z\\d*]{8,20}$/",$city_id)) {
+               $city_idErr = "Only numbers  are allowed";
+           }
+       }
+    }
+    $first_nameErr  = "";
+     $first_name = "";
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["first_name"])) {
+            $first_nameErr = "input  is required";
+          } else {
+            $first_name= input_data($_POST["first_name"]);
+            // check that the first name is valid
+             if (!preg_match("/^[a-z ,.'-]+$/",$first_name)) {
+                $first_nameErr = "Only alphabates are allowed";
+            }
+        }
+     }
+     $last_nameErr  = "";
+     $last_name = "";
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["last_name"])) {
+            $last_nameErr = "input  is required";
+          } else {
+            $last_name= input_data($_POST["last_name"]);
+            // check that the lastname is valid
+             if (!preg_match("/^[a-z ,.'-]+$/",$last_name)) {
+                $last_nameErr = "Only alphabates are allowed";
+            }
+        }
+     }
+     $emailErr  = "";
+     $email = "";
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["email"])) {
+            $emailErr = "input  is required";
+          } else {
+            $email= input_data($_POST["email"]);
+            // check that the email is valid
+             if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Unvalid Email";
+            }
+        }
+     }
+     $passwordErr  = "";
+     $password = "";
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["password"])) {
+            $passwordErr = "input  is required";
+          } else {
+            $password= input_data($_POST["password"]);
+            // check that the password is valid
+             if (!preg_match("/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/",$password)) {
+                $passwordErr = "Only alphabates and numbers  are allowed";
+            }
+        }
+     }
+    $addressErr  = "";
+     $address = "";
+     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["address"])) {
+            $addressErr = "input  is required";
+          } else {
+            $address= input_data($_POST["address"]);
+            // check that the address is valid
+             if (!preg_match("/^[a-z ,.'-]+$/",$address)) {
+                $addressErr = "Only alphabates and numbers  are allowed";
+            }
+        }
+     }
+
+     function input_data($data)
+     {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+     }
+     ?>
     <!-- form designing for user interface -->
-    <form method="POST" name="myForm" onsubmit="return validateForm()" required>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
         <table border="1" align="center">
             <tr>
                 <td> City </td>
                 <td>
-                <input class="text" name="city_id" id="city_id"> </td>
+                <input class="text" name="city_id" id="city_id">
+                <span style="color:yellow">*<?php echo $city_idErr;?></span> </td>
             </tr>
             <tr>
                 <td> First Name </td>
                 <td> 
-                <input class="text" name="first_name" id="first_name"> </td>
+                <input class="text" name="first_name" id="first_name"> 
+                <span style="color:yellow">*<?php echo $first_nameErr;?></span></td>
             </tr>
             <tr>
                 <td> Last Name </td>
                 <td>
-                <input class="text" name="last_name" id="last_name"> </td>
+                <input class="text" name="last_name" id="last_name"> 
+                <span style="color:yellow">*<?php echo $last_nameErr;?></span></td>
             </tr>
             <tr>
                 <td> Email </td>
                 <td>
-                <input class="text" name="email" id="email"> </td>
+                <input class="text" name="email" id="email" >
+                <span style="color:yellow">*<?php echo $emailErr;?></span> </td>
             </tr>
             <tr>
                 <td> Password </td>
                 <td>
-                 <input type="password" name="password" id="password"> </td>
+                 <input type="password" name="password" id="password">
+                <span style="color:yellow">*<?php echo $passwordErr;?></span> </td>
             </tr>
             <tr>
                 <td> Address </td>
                 <td> 
-                <input class="text" name="address" id="address"> </td>
+                <input class="text" name="address" id="address">
+                <span style="color:yellow">*<?php echo $addressErr;?></span> </td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
@@ -98,6 +158,9 @@ function validateForm() {
     //On click button condition
         if(isset($_POST['insert']))
         {
+            //fetching validation variables
+            if($city_idErr=="" && $first_nameErr=="" && $last_nameErr=="" && $emailErr=="" && $passworsErr=="" && $addressErr=="")
+            {
             //fetching data from table
             $city_id=$_POST['city_id'];
             $first_name=$_POST['first_name'];
@@ -115,6 +178,7 @@ function validateForm() {
             {
                 echo "Not Inserted";
             }
+        }
             //function used for not fetching data if refresh again in browser
             unset($_POST['insert']);
         }
@@ -166,7 +230,7 @@ function validateForm() {
                     echo "<td>";echo $row['email'];echo "</td>";
                     echo "<td>";echo $row['password'];echo "</td>";
                     echo "<td>";echo $row['address'];echo "</td>";
-                    //redirecting page on click button fuction
+                    //redirecting page on click button function
                     echo "<td>";echo "<a href='u_update.php?update=".$row['id']."'>Update</a>";echo "</td>";
                     echo "<td>";echo "<a href='user.php?Delete=".$row['id']."'>Delete</a>";echo "</td>";
                 echo "<tr>";   

@@ -1,3 +1,4 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?> 
 <?php 
     //Including connection file
     include 'connection.php'; 
@@ -14,17 +15,17 @@
 function validateForm() {
   var x = document.forms["myForm"]["state_id"].value;
   if (x == "" || x == null) {
-    alert("State ID must be filled out");
+    alert("State ID must be filled");
     return false;
   }
   var x = document.forms["myForm"]["name"].value;
   if (x == "" || x == null) {
-    alert("Name must be filled out");
+    alert("City Name must be filled");
     return false;
   }
   var x = document.forms["myForm"]["pincode"].value;
   if (x == "" || x == null) {
-    alert("Pincode must be filled out");
+    alert("Pincode must be filled");
     return false;
   }
 }

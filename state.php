@@ -13,7 +13,7 @@
 function validateForm() {
   var x = document.forms["myForm"]["name"].value;
   if (x == "" || x == null) {
-    alert("Name must be filled out");
+    alert(" State Name must be filled");
     return false;
   }
 }

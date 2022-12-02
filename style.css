@@ -87,6 +87,12 @@ button {
     border: solid;
 }
 
+.submit:hover {
+    background-color: crimson;
+    opacity: .60;
+
+}
+
 button:hover {
     background-color: crimson;
     opacity: .60;
